@@ -84,7 +84,7 @@ namespace BookStore.Controllers
 
                     return RedirectToAction(nameof(Index));
                 }
-                catch
+                catch (Exception ex)
                 {
                     return View();
                 }
@@ -165,7 +165,7 @@ namespace BookStore.Controllers
                 bookRepository.Delete(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }

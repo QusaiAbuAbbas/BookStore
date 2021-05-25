@@ -2,6 +2,7 @@
 using BookStore.Models.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace BookStore.Controllers
 {
@@ -12,6 +13,7 @@ namespace BookStore.Controllers
         public AuthorController(IBookStoreRepository<Author> authorRepository)
         {
             this.authorRepoaitory = authorRepository;
+            if(TempData != null) TempData.Clear();
         }
         // GET: Author
         public ActionResult Index()
@@ -46,7 +48,7 @@ namespace BookStore.Controllers
 
                     return RedirectToAction(nameof(Index));
                 }
-                catch
+                catch (Exception ex)
                 {
                     return View();
                 }
@@ -76,7 +78,7 @@ namespace BookStore.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }
@@ -97,10 +99,13 @@ namespace BookStore.Controllers
             try
             {
                 authorRepoaitory.Delete(id);
-
+                if(authorRepoaitory.Find(id) != null)
+                {
+                    TempData["DeletaionFaild"] = "Please delete the books referenced before delete the author!";
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception ex)
             {
                 return View();
             }

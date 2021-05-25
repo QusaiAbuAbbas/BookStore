@@ -14,7 +14,7 @@ namespace BookStore.Models.Repositories
         }
         public void Add(Author entity)
         {
-           // entity.Id = db.Authors.Max(b => b.Id) + 1;
+            // entity.Id = db.Authors.Max(b => b.Id) + 1;
             db.Authors.Add(entity);
             Commit();
         }
@@ -22,8 +22,12 @@ namespace BookStore.Models.Repositories
         public void Delete(int id)
         {
             var author = Find(id);
-            db.Authors.Remove(author);
-            Commit();
+            var isUsable = db.Books.Any(x => x.Author.Id == id);
+            if (!isUsable)
+            {
+                db.Authors.Remove(author);
+                Commit();
+            }
         }
 
         public Author Find(int id)
@@ -45,7 +49,7 @@ namespace BookStore.Models.Repositories
         public void Update(int id, Author newAuthor)
         {
             db.Update(newAuthor);
-           Commit();
+            Commit();
         }
 
         private void Commit()
