@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models.Repositories
 {
-    public class BookDbRepository : IBookStoreRepository<Book>,IDisposable
+    public class BookDbRepository : IBookStoreRepository<Book>
     {
         private readonly BookStoreDbContext _db;
         public BookDbRepository(BookStoreDbContext db)
@@ -55,13 +55,6 @@ namespace BookStore.Models.Repositories
         private void Commit()
         {
             _db.SaveChanges();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
-       
+        }                     
     }
 }
